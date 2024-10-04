@@ -8,6 +8,9 @@ pipeline {
                 echo 'In C or Java, we can compile our program in this step'
                 echo 'In Python, we can build our package here or skip this step'
                 '''
+                sh 'python3 -m venv mlip'
+                sh '. mlip/bin/activate && pip install --upgrade pip && pip install -r requirements.txt'
+
             }
         }
         stage('Test') {
@@ -17,13 +20,16 @@ pipeline {
 
                 # TODO fill out the path to conda here
                 # sudo /PATH/TO/CONDA init
+                source mlip/bin/activate
+                pytest
 
                 # TODO Complete the command to run pytest
                 # sudo /PATH/TO/CONDA run -n <Envinronment Name> <Command you want to run>
 
                 echo 'pytest not runned'
-                exit 1 #comment this line after implementing Jenkinsfile
+                # exit 1 #comment this line after implementing Jenkinsfile
                 '''
+        
 
             }
         }
